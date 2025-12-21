@@ -20,6 +20,8 @@ import com.lavariyalabs.snapy.android.ui.viewmodel.FlashcardViewModel
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavController
+import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
 
 /**
  * FlashcardScreen - Main screen composable
@@ -37,7 +39,9 @@ import androidx.compose.ui.text.font.FontWeight
  */
 @Composable
 fun FlashcardScreen(
-    viewModel: FlashcardViewModel = viewModel()
+    viewModel: FlashcardViewModel = viewModel(),
+    navController: NavController,
+    appStateViewModel: AppStateViewModel
 ) {
     // ========== LOAD DATA ON FIRST LAUNCH ==========
     /**
