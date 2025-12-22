@@ -1,5 +1,6 @@
 package com.lavariyalabs.snapy.android
 
+import OnboardingScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,7 +34,9 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .padding(innerPadding)
                     ) {
-                        LottieLoadingAnimation()
+                        OnboardingScreen(onNextClick = {
+                            // This is currently empty, so nothing happens when you click
+                        })
                     }
                 }
             }
