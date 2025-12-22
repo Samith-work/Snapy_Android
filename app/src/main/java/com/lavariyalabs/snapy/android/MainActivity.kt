@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -21,7 +22,11 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.lavariyalabs.snapy.android.ui.theme.Snapy_AndroidTheme
 import com.lavariyalabs.snapy.android.ui.screen.FlashcardScreen
+import com.lavariyalabs.snapy.android.ui.screen.HomeScreen
 import com.lavariyalabs.snapy.android.ui.screen.OnboardingScreen
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,14 +34,37 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Snapy_AndroidTheme {
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    Box(modifier = Modifier
+//                        .fillMaxSize()
+//                        .padding(innerPadding)
+//                    ) {
+//                        HomeScreen()
+//                    }
+//                }
+                val navController = rememberNavController()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
+                    // 2. Define the NavHost inside the Scaffold
+                    NavHost(
+                        navController = navController,
+                        startDestination = "onboarding", // Start app here
+                        modifier = Modifier.padding(innerPadding)
                     ) {
-                        OnboardingScreen(onNextClick = {
-                            // This is currently empty, so nothing happens when you click
-                        })
+                        // 3. Define the Onboarding Route
+                        composable("onboarding") {
+                            OnboardingScreen(onNextClick = {
+                                // Navigate to Home and remove Onboarding from history
+                                navController.navigate("home") {
+                                    popUpTo("onboarding") { inclusive = true }
+                                }
+                            })
+                        }
+
+                        // 4. Define the Home Route
+                        composable("home") {
+                            HomeScreen()
+                        }
                     }
                 }
             }
