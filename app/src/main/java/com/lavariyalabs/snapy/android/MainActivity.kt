@@ -42,31 +42,31 @@ class MainActivity : ComponentActivity() {
 //                        HomeScreen()
 //                    }
 //                }
-                val navController = rememberNavController()
-
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    // 2. Define the NavHost inside the Scaffold
-                    NavHost(
-                        navController = navController,
-                        startDestination = "onboarding", // Start app here
-                        modifier = Modifier.padding(innerPadding)
-                    ) {
-                        // 3. Define the Onboarding Route
-                        composable("onboarding") {
-                            OnboardingScreen(onNextClick = {
-                                // Navigate to Home and remove Onboarding from history
-                                navController.navigate("home") {
-                                    popUpTo("onboarding") { inclusive = true }
-                                }
-                            })
-                        }
-
-                        // 4. Define the Home Route
-                        composable("home") {
-                            HomeScreen()
-                        }
-                    }
-                }
+//                val navController = rememberNavController()
+//
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    // 2. Define the NavHost inside the Scaffold
+//                    NavHost(
+//                        navController = navController,
+//                        startDestination = "onboarding", // Start app here
+//                        modifier = Modifier.padding(innerPadding)
+//                    ) {
+//                        // 3. Define the Onboarding Route
+//                        composable("onboarding") {
+//                            OnboardingScreen(onNextClick = {
+//                                // Navigate to Home and remove Onboarding from history
+//                                navController.navigate("home") {
+//                                    popUpTo("onboarding") { inclusive = true }
+//                                }
+//                            })
+//                        }
+//
+//                        // 4. Define the Home Route
+//                        composable("home") {
+//                            HomeScreen()
+//                        }
+//                    }
+//                }
             }
         }
     }
