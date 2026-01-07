@@ -19,10 +19,13 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.lavariyalabs.snapy.android.ui.theme.Snapy_AndroidTheme
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
+import com.lavariyalabs.snapy.android.navigation.NavigationState
+import com.lavariyalabs.snapy.android.navigation.Screen
 import com.lavariyalabs.snapy.android.navigation.NavGraph
 import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
+import com.lavariyalabs.snapy.android.ui.viewmodel.ViewModelFactory
 
 //class MainActivity : ComponentActivity() {
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,18 +87,22 @@ fun LottieLoadingAnimation(modifier: Modifier = Modifier) {
 
 @Composable
 fun SnapApp() {
-    // Navigation controller
-    val navController = rememberNavController()
+    // Navigation state (replaces NavController)
+    val navigationState = remember { NavigationState(Screen.Splash) }
+
+    // ViewModelFactory for dependency injection
+    val viewModelFactory = ViewModelFactory()
 
     // Shared app state (available to all screens)
-    val appStateViewModel: AppStateViewModel = viewModel()
+    val appStateViewModel: AppStateViewModel = viewModel(factory = viewModelFactory)
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         // Apply the padding to a container wrapping your content
         Box(modifier = Modifier.padding(innerPadding)) {
             NavGraph(
-                navController = navController,
-                appStateViewModel = appStateViewModel
+                navigationState = navigationState,
+                appStateViewModel = appStateViewModel,
+                viewModelFactory = viewModelFactory
             )
         }
     }

@@ -15,8 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.lavariyalabs.snapy.android.navigation.NavRoutes
 import com.lavariyalabs.snapy.android.ui.components.ContinueButton
 import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
 
@@ -28,7 +26,7 @@ import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
  */
 @Composable
 fun OnboardingNameScreen(
-    navController: NavController,
+    onNavigateNext: () -> Unit,
     appStateViewModel: AppStateViewModel
 ) {
 
@@ -101,7 +99,7 @@ fun OnboardingNameScreen(
             onClick = {
                 if (nameInput.value.isNotEmpty()) {
                     appStateViewModel.setUserName(nameInput.value)
-                    navController.navigate(NavRoutes.ONBOARDING_GRADE)
+                    onNavigateNext()
                 }
             }
         )

@@ -14,10 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.lavariyalabs.snapy.android.navigation.NavRoutes
 import com.lavariyalabs.snapy.android.ui.components.ContinueButton
 import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
+import com.lavariyalabs.snapy.android.ui.viewmodel.OnboardingViewModel
 
 /**
  * OnboardingLanguageScreen - Step 1 of onboarding
@@ -27,8 +26,9 @@ import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
  */
 @Composable
 fun OnboardingLanguageScreen(
-    navController: NavController,
-    appStateViewModel: AppStateViewModel
+    onNavigateNext: () -> Unit,
+    appStateViewModel: AppStateViewModel,
+    onboardingViewModel: OnboardingViewModel
 ) {
 
     val selectedLanguage = remember { mutableStateOf<String?>(null) }
@@ -94,7 +94,7 @@ fun OnboardingLanguageScreen(
             onClick = {
                 if (selectedLanguage.value != null) {
                     appStateViewModel.setLanguage(selectedLanguage.value!!)
-                    navController.navigate(NavRoutes.ONBOARDING_NAME)
+                    onNavigateNext()
                 }
             }
         )

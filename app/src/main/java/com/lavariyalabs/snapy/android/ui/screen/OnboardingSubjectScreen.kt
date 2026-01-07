@@ -20,11 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.compose.runtime.LaunchedEffect
 import com.lavariyalabs.snapy.android.data.model.Subject
-import com.lavariyalabs.snapy.android.navigation.NavRoutes
 import com.lavariyalabs.snapy.android.ui.components.ContinueButton
 import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
+import com.lavariyalabs.snapy.android.ui.viewmodel.OnboardingViewModel
 
 /**
  * OnboardingSubjectScreen - Step 4 of onboarding
@@ -35,13 +35,23 @@ import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
  */
 @Composable
 fun OnboardingSubjectScreen(
-    navController: NavController,
-    appStateViewModel: AppStateViewModel
+    onNavigateToHome: () -> Unit,
+    onNavigateBack: () -> Unit,
+    appStateViewModel: AppStateViewModel,
+    onboardingViewModel: OnboardingViewModel
 ) {
 
     val selectedSubject = remember { mutableStateOf<Subject?>(null) }
-    val subjects by appStateViewModel.subjects
-    val isLoading by appStateViewModel.isLoading
+    val subjects by onboardingViewModel.subjects
+    val isLoading by onboardingViewModel.isLoading
+    val selectedGrade by appStateViewModel.selectedGrade
+
+    // Load subjects when grade is selected
+    LaunchedEffect(selectedGrade) {
+        selectedGrade?.let { grade ->
+            onboardingViewModel.loadSubjectsForGrade(grade.id)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -112,9 +122,7 @@ fun OnboardingSubjectScreen(
             onClick = {
                 if (selectedSubject.value != null) {
                     // Onboarding complete - go to home
-                    navController.navigate(NavRoutes.HOME) {
-                        popUpTo(NavRoutes.SPLASH) { inclusive = true }
-                    }
+                    onNavigateToHome()
                 }
             }
         )

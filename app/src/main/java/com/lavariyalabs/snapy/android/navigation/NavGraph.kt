@@ -1,89 +1,108 @@
 package com.lavariyalabs.snapy.android.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lavariyalabs.snapy.android.ui.screen.*
 import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
+import com.lavariyalabs.snapy.android.ui.viewmodel.ViewModelFactory
 
 /**
- * NavGraph - Defines all routes and screens
+ * NavGraph - State-based navigation without routes
  *
- * This is the app's navigation blueprint
+ * Uses sealed class Screen instead of string routes
  */
 @Composable
 fun NavGraph(
-    navController: NavHostController,
-    appStateViewModel: AppStateViewModel
+    navigationState: NavigationState,
+    appStateViewModel: AppStateViewModel,
+    viewModelFactory: ViewModelFactory
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = NavRoutes.SPLASH
-    ) {
-        // SPLASH
-        composable(NavRoutes.SPLASH) {
-            SplashScreen(navController = navController)
+    // Navigate based on current screen state
+    when (val screen = navigationState.currentScreen) {
+        is Screen.Splash -> {
+            SplashScreen(
+                onNavigateToOnboarding = {
+                    navigationState.navigateTo(Screen.OnboardingLanguage)
+                }
+            )
         }
-
-        // ONBOARDING
-        composable(NavRoutes.ONBOARDING_LANGUAGE) {
+        
+        is Screen.OnboardingLanguage -> {
             OnboardingLanguageScreen(
-                navController = navController,
-                appStateViewModel = appStateViewModel
+                onNavigateNext = {
+                    navigationState.navigateTo(Screen.OnboardingName)
+                },
+                appStateViewModel = appStateViewModel,
+                onboardingViewModel = viewModel(factory = viewModelFactory)
             )
         }
-
-        composable(NavRoutes.ONBOARDING_NAME) {
+        
+        is Screen.OnboardingName -> {
             OnboardingNameScreen(
-                navController = navController,
+                onNavigateNext = {
+                    navigationState.navigateTo(Screen.OnboardingGrade)
+                },
                 appStateViewModel = appStateViewModel
             )
         }
-
-        composable(NavRoutes.ONBOARDING_GRADE) {
+        
+        is Screen.OnboardingGrade -> {
             OnboardingGradeScreen(
-                navController = navController,
-                appStateViewModel = appStateViewModel
+                onNavigateNext = {
+                    navigationState.navigateTo(Screen.OnboardingSubject)
+                },
+                onNavigateBack = {
+                    navigationState.navigateBack()
+                },
+                appStateViewModel = appStateViewModel,
+                onboardingViewModel = viewModel(factory = viewModelFactory)
             )
         }
-
-        composable(NavRoutes.ONBOARDING_SUBJECT) {
+        
+        is Screen.OnboardingSubject -> {
             OnboardingSubjectScreen(
-                navController = navController,
-                appStateViewModel = appStateViewModel
+                onNavigateToHome = {
+                    navigationState.navigateToAndClearStack(Screen.Home)
+                },
+                onNavigateBack = {
+                    navigationState.navigateBack()
+                },
+                appStateViewModel = appStateViewModel,
+                onboardingViewModel = viewModel(factory = viewModelFactory)
             )
         }
-
-        // APP SCREENS
-        composable(NavRoutes.HOME) {
+        
+        is Screen.Home -> {
             HomeScreen(
-                navController = navController,
-                appStateViewModel = appStateViewModel
+                onNavigateToProfile = {
+                    navigationState.navigateTo(Screen.Profile)
+                },
+                onNavigateToFlashcard = { unitId ->
+                    navigationState.navigateTo(Screen.Flashcard(unitId))
+                },
+                appStateViewModel = appStateViewModel,
+                homeViewModel = viewModel(factory = viewModelFactory)
             )
         }
-
-        composable(NavRoutes.PROFILE) {
+        
+        is Screen.Profile -> {
             ProfileScreen(
-                navController = navController,
-                appStateViewModel = appStateViewModel
+                onNavigateBack = {
+                    navigationState.navigateBack()
+                },
+                appStateViewModel = appStateViewModel,
+                profileViewModel = viewModel(factory = viewModelFactory)
             )
         }
-
-        // ========== FLASHCARD ==========
-        composable(
-            route = NavRoutes.FLASHCARD,
-            arguments = listOf(navArgument("unitId") { type = NavType.LongType })
-        ) { backStackEntry ->
-            val unitId = backStackEntry.arguments?.getLong("unitId") ?: return@composable
-
+        
+        is Screen.Flashcard -> {
             FlashcardStudyScreen(
-                navController = navController,
-                unitId = unitId
+                unitId = screen.unitId,
+                onNavigateBack = {
+                    navigationState.navigateBack()
+                },
+                viewModel = viewModel(factory = viewModelFactory)
             )
         }
-
     }
 }

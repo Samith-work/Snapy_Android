@@ -19,11 +19,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.lavariyalabs.snapy.android.data.model.Grade
-import com.lavariyalabs.snapy.android.navigation.NavRoutes
 import com.lavariyalabs.snapy.android.ui.components.ContinueButton
 import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
+import com.lavariyalabs.snapy.android.ui.viewmodel.OnboardingViewModel
 
 /**
  * OnboardingGradeScreen - Step 3 of onboarding
@@ -33,18 +32,20 @@ import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
  */
 @Composable
 fun OnboardingGradeScreen(
-    navController: NavController,
-    appStateViewModel: AppStateViewModel
+    onNavigateNext: () -> Unit,
+    onNavigateBack: () -> Unit,
+    appStateViewModel: AppStateViewModel,
+    onboardingViewModel: OnboardingViewModel
 ) {
 
     // Load grades from Supabase
     LaunchedEffect(Unit) {
-        appStateViewModel.loadGrades()
+        onboardingViewModel.loadGrades()
     }
 
     val selectedGrade = remember { mutableStateOf<Grade?>(null) }
-    val grades by appStateViewModel.grades
-    val isLoading by appStateViewModel.isLoading
+    val grades by onboardingViewModel.grades
+    val isLoading by onboardingViewModel.isLoading
 
     Column(
         modifier = Modifier
@@ -109,7 +110,7 @@ fun OnboardingGradeScreen(
             isEnabled = selectedGrade.value != null,
             onClick = {
                 if (selectedGrade.value != null) {
-                    navController.navigate(NavRoutes.ONBOARDING_SUBJECT)
+                    onNavigateNext()
                 }
             }
         )
