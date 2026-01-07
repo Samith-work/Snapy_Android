@@ -19,9 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.lavariyalabs.snapy.android.data.model.Grade
-import com.lavariyalabs.snapy.android.navigation.NavRoutes
 import com.lavariyalabs.snapy.android.ui.components.ContinueButton
 import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
 import com.lavariyalabs.snapy.android.ui.viewmodel.OnboardingViewModel
@@ -34,7 +32,8 @@ import com.lavariyalabs.snapy.android.ui.viewmodel.OnboardingViewModel
  */
 @Composable
 fun OnboardingGradeScreen(
-    navController: NavController,
+    onNavigateNext: () -> Unit,
+    onNavigateBack: () -> Unit,
     appStateViewModel: AppStateViewModel,
     onboardingViewModel: OnboardingViewModel
 ) {
@@ -111,7 +110,7 @@ fun OnboardingGradeScreen(
             isEnabled = selectedGrade.value != null,
             onClick = {
                 if (selectedGrade.value != null) {
-                    navController.navigate(NavRoutes.ONBOARDING_SUBJECT)
+                    onNavigateNext()
                 }
             }
         )

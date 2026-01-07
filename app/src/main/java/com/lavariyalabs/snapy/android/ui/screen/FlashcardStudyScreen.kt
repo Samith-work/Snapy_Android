@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.lavariyalabs.snapy.android.ui.components.*
 import com.lavariyalabs.snapy.android.ui.viewmodel.FlashcardViewModel
 import com.lavariyalabs.snapy.android.ui.components.MCQFlashcardComponent
@@ -29,8 +28,8 @@ import com.lavariyalabs.snapy.android.ui.components.MCQAnswerButtonsSection
  */
 @Composable
 fun FlashcardStudyScreen(
-    navController: NavController,
     unitId: Long,
+    onNavigateBack: () -> Unit,
     viewModel: FlashcardViewModel
 ) {
     // Load flashcards from Supabase
@@ -95,7 +94,7 @@ fun FlashcardStudyScreen(
                 color = Color.White,
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .clickable { navController.popBackStack() }
+                    .clickable { onNavigateBack() }
             )
 
             Text(

@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
 import com.lavariyalabs.snapy.android.ui.viewmodel.ProfileViewModel
 
@@ -30,7 +29,7 @@ import com.lavariyalabs.snapy.android.ui.viewmodel.ProfileViewModel
  */
 @Composable
 fun ProfileScreen(
-    navController: NavController,
+    onNavigateBack: () -> Unit,
     appStateViewModel: AppStateViewModel,
     profileViewModel: ProfileViewModel
 ) {
@@ -63,9 +62,7 @@ fun ProfileScreen(
                 color = Color.White,
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .clickable {
-                        navController.popBackStack()
-                    }
+                    .clickable { onNavigateBack() }
             )
 
             Text(

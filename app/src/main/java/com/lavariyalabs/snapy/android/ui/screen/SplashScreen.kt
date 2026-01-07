@@ -11,8 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.lavariyalabs.snapy.android.navigation.NavRoutes
 import kotlinx.coroutines.delay
 
 /**
@@ -21,14 +19,14 @@ import kotlinx.coroutines.delay
  * Shows for 2 seconds then navigates to onboarding
  */
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(
+    onNavigateToOnboarding: () -> Unit
+) {
 
     // Auto-navigate after 2 seconds
     LaunchedEffect(Unit) {
         delay(2000)
-        navController.navigate(NavRoutes.ONBOARDING_LANGUAGE) {
-            popUpTo(NavRoutes.SPLASH) { inclusive = true }
-        }
+        onNavigateToOnboarding()
     }
 
     Box(

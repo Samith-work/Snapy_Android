@@ -21,9 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.LaunchedEffect
-import androidx.navigation.NavController
 import com.lavariyalabs.snapy.android.data.model.Subject
-import com.lavariyalabs.snapy.android.navigation.NavRoutes
 import com.lavariyalabs.snapy.android.ui.components.ContinueButton
 import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
 import com.lavariyalabs.snapy.android.ui.viewmodel.OnboardingViewModel
@@ -37,7 +35,8 @@ import com.lavariyalabs.snapy.android.ui.viewmodel.OnboardingViewModel
  */
 @Composable
 fun OnboardingSubjectScreen(
-    navController: NavController,
+    onNavigateToHome: () -> Unit,
+    onNavigateBack: () -> Unit,
     appStateViewModel: AppStateViewModel,
     onboardingViewModel: OnboardingViewModel
 ) {
@@ -123,9 +122,7 @@ fun OnboardingSubjectScreen(
             onClick = {
                 if (selectedSubject.value != null) {
                     // Onboarding complete - go to home
-                    navController.navigate(NavRoutes.HOME) {
-                        popUpTo(NavRoutes.SPLASH) { inclusive = true }
-                    }
+                    onNavigateToHome()
                 }
             }
         )

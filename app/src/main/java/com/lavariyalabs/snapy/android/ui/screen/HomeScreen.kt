@@ -22,9 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.lavariyalabs.snapy.android.data.model.StudyUnit
-import com.lavariyalabs.snapy.android.navigation.NavRoutes
 import com.lavariyalabs.snapy.android.ui.viewmodel.AppStateViewModel
 import com.lavariyalabs.snapy.android.ui.viewmodel.HomeViewModel
 
@@ -39,7 +37,8 @@ import com.lavariyalabs.snapy.android.ui.viewmodel.HomeViewModel
  */
 @Composable
 fun HomeScreen(
-    navController: NavController,
+    onNavigateToProfile: () -> Unit,
+    onNavigateToFlashcard: (Long) -> Unit,
     appStateViewModel: AppStateViewModel,
     homeViewModel: HomeViewModel
 ) {
@@ -107,7 +106,7 @@ fun HomeScreen(
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
-                            .clickable { navController.navigate(NavRoutes.PROFILE) }
+                            .clickable { onNavigateToProfile() }
                             .padding(8.dp)
                     ) {
                         Text("👤", fontSize = 24.sp)
@@ -304,7 +303,7 @@ fun HomeScreen(
                         UnitCard(
                             unit = unit,
                             onClick = {
-                                navController.navigate(NavRoutes.flashcardRoute(unit.id))
+                                onNavigateToFlashcard(unit.id)
                             }
                         )
                     }
