@@ -64,7 +64,7 @@ fun MCQFlashcardComponent(
 
     Box(
         modifier = Modifier
-            .fillMaxSize() // FIXED: Adapt to screen size
+            .fillMaxSize()
             .padding(16.dp)
             .clip(RoundedCornerShape(24.dp))
             .background(color = currentColorScheme.questionColor)

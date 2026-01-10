@@ -79,7 +79,7 @@ fun FlashcardComponent(
     // ========== MAIN CARD ==========
     Box(
         modifier = Modifier
-            .fillMaxSize() // FIXED: Use fillMaxSize to adapt to any screen size
+            .fillMaxSize()
             .padding(16.dp)
             .clip(RoundedCornerShape(24.dp))
             .graphicsLayer {
