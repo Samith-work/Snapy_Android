@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.lavariyalabs.snapy.android.utils.SoundManager
 
 /**
  * FlashcardComponent - Self-evaluation flashcard with flip animation
@@ -89,7 +90,10 @@ fun FlashcardComponent(
                 scaleY = scale
             }
             .background(color = cardBackgroundColor)
-            .clickable(enabled = true) { onCardClick() },
+            .clickable(enabled = true) { 
+                SoundManager.playClickSound()
+                onCardClick() 
+            },
         contentAlignment = Alignment.Center
     ) {
 
