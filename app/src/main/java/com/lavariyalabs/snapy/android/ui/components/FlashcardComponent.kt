@@ -79,9 +79,8 @@ fun FlashcardComponent(
     // ========== MAIN CARD ==========
     Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize() // FIXED: Use fillMaxSize to adapt to any screen size
             .padding(16.dp)
-            .aspectRatio(0.65f)
             .clip(RoundedCornerShape(24.dp))
             .graphicsLayer {
                 rotationY = cardRotation
