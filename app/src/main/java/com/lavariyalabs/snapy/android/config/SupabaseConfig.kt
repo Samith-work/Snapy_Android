@@ -13,8 +13,8 @@ import kotlin.time.Duration.Companion.seconds
 object SupabaseConfig {
 
     // ========== YOUR CREDENTIALS ==========
-    private const val SUPABASE_URL = "https://lriggiqgikqhsfqlojlj.supabase.co"
-    private const val SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxyaWdnaXFnaWtxaHNmcWxvamxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyNzkwMTQsImV4cCI6MjA4MDg1NTAxNH0.gAXy6WgSGUs4wty7CkH3hIaCAyXq_pW6xm0TmQFvYxs"
+    private const val SUPABASE_URL = "https://supabasekong-xoogo0gsgcws488w4ksscc8c.213.199.37.37.sslip.io"
+    private const val SUPABASE_ANON_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc2ODA5NTkwMCwiZXhwIjo0OTIzNzY5NTAwLCJyb2xlIjoiYW5vbiJ9.Z6NixD73ybpP5C9C4Wr2myit9WzLEczxiaRT01W4s8"
 
     /**
      * supabaseClient - The main Supabase client
